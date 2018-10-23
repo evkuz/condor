@@ -2,4 +2,5 @@
 
 - Добавил конфиги из /nfs/condor/condor-etc/backup
 - Добавил скрипты для поиска "выпавшего" узла /nfs/condor/*
+- Добавил openssl.cnf
 
