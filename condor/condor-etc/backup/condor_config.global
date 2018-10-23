@@ -1,0 +1,91 @@
+RELEASE_DIR = /usr
+
+LOCAL_DIR = /var
+
+LOCAL_CONFIG_FILE = /nfs/condor/condor-etc/condor_config.$(HOSTNAME)
+
+SSH_TO_JOB_SSHD_CONFIG_TEMPLATE = /etc/condor/condor_ssh_to_job_sshd_config_template
+
+#Default is true but who knows... Added by E.K. 26.09.2018
+ENABLE_SSH_TO_JOB = True
+
+#Default is true but who knows... Added by E.K. 26.09.2018
+SCHEDD_ENABLE_SSH_TO_JOB = True
+
+#!
+UID_DOMAIN = $(FULL_HOSTNAME) 
+#!
+
+COLLECTOR_NAME = "OSG JINR Collector at $(UID_DOMAIN)"
+FILESYSTEM_DOMAIN = $(UID_DOMAIN)
+
+
+CONDOR_ADMIN = root@$(FULL_HOSTNAME)
+CONDOR_HOST = condor.jinr.ru
+IN_HIGHPORT = 9999
+IN_LOWPORT = 9000
+UPDATE_COLLECTOR_WITH_TCP=True
+
+# this default defines the daemon’s needs for authentication over all access levels
+# SEC_DEFAULT_AUTHENTICATION = REQUIRED
+
+SEC_DAEMON_AUTHENTICATION = REQUIRED
+SEC_DAEMON_AUTHENTICATION_METHODS = SSL
+
+SEC_NEGOTIATOR_AUTHENTICATION = REQUIRED 
+SEC_NEGOTIATOR_AUTHENTICATION_METHODS = SSL
+
+#
+SEC_DAEMON_INTEGRITY = REQUIRED
+SEC_DAEMON_ENCRYPTION = REQUIRED
+#
+SEC_CLIENT_AUTHENTICATION_METHODS = ssl,password,fs,gsi
+SEC_PASSWORD_FILE = /var/lib/condor/condor_credential
+
+#
+STARTER_ALLOW_RUNAS_OWNER = True
+#!!
+
+ALLOW_DAEMON = condor_pool@*/*, condor@*/*, submit-side@matchsession/*
+
+ALLOW_NEGOTIATOR = condor_pool@*/*, condor@*/*, submit-side@matchsession/*
+
+#
+TRUST_UID_DOMAIN = True
+#!! 
+
+NEGOTIATOR_INTERVAL = 20
+START = TRUE
+SUSPEND = FALSE
+PREEMPT = FALSE
+KILL = FALSE
+
+
+AUTH_SSL_CLIENT_CAFILE = /nfs/condor/condor-etc/cndrsrvc.crt
+AUTH_SSL_CLIENT_CERTFILE = /nfs/condor/condor-etc/cndrsrvc.crt
+AUTH_SSL_CLIENT_KEYFILE = /nfs/condor/condor-etc/cndrsrvc.key
+AUTH_SSL_SERVER_CAFILE = /nfs/condor/condor-etc/cndrsrvc.crt
+AUTH_SSL_SERVER_CERTFILE = /nfs/condor/condor-etc/cndrsrvc.crt
+AUTH_SSL_SERVER_KEYFILE = /nfs/condor/condor-etc/cndrsrvc.key
+
+
+
+
+CERTIFICATE_MAPFILE = /nfs/condor/condor-etc/condor-mapfile
+
+RUN     = $(LOCAL_DIR)/run/condor
+LOG     = $(LOCAL_DIR)/log/condor
+LOCK    = $(LOCAL_DIR)/lock/condor
+SPOOL   = $(LOCAL_DIR)/lib/condor/spool
+EXECUTE = $(LOCAL_DIR)/lib/condor/execute
+BIN     = $(RELEASE_DIR)/bin
+LIB = $(RELEASE_DIR)/lib64/condor
+INCLUDE = $(RELEASE_DIR)/include/condor
+SBIN    = $(RELEASE_DIR)/sbin
+LIBEXEC = $(RELEASE_DIR)/libexec/condor
+SHARE   = $(RELEASE_DIR)/share/condor
+#/////////////////////////////////////////////////// EK 21.11.2016 //////////////////////
+#USE_NFS = TRUE
+
+
+QUEUE_SUPER_USER_MAY_IMPERSONATE=.*
