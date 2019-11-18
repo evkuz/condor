@@ -9,7 +9,13 @@
 # т.е. '6' означает ip=10.93.221.6
 # В итоге получаем 4 массива ip для 4 партий серверов
 
-# Комментим за ненадобностью
+NODE_LIST="./nodes_for_edit.lst"
+
+#Опустошаем
+#touch $NODE_LIST
+cp /dev/null $NODE_LIST
+
+# Комментим за ненадобностью, нужно было для тестов
 #Part_1=(6 13 21 66 75 80 88 115 119 127 130 133 134 135)
 #Part_2=(14 20 24 26 27 28 34 78 84 85 86 87 113 114 117 131)
 #Part_3=(157 158 160 161 162 163 165 167 168 176 178 180 183 184 188 189 190 191 192 193)
@@ -57,15 +63,15 @@ IFS=$'\n' sorted_status_array=($(sort <<<"${status_array[*]}"))
 unset IFS
 
 
-#echo "sorted_status_array list:"
+echo "sorted_status_array list:"
 
-#for index in ${!sorted_status_array[*]}
-#do
-#    printf "%4d: %s\n" $index ${sorted_status_array[$index]}
+for index in ${!sorted_status_array[*]}
+do
+    printf "%4d: %s\n" $index ${sorted_status_array[$index]}
 #echo "arr_index = $index, and the value is ${status_array[$index]}"
-#done
+done
 
-#echo "Total status_array elemetns is $index"
+echo "Total status_array elemetns is $($index + 1)"
 
 # Сравниваем массивы, разницу помещаем в массив 'differ'
 # Создаем строку из элементов обоих массивов, меняем в этой строке пробел на перевод строки, вырезаем из этой строки
@@ -76,22 +82,23 @@ differ=$(echo ${sorted_vm_array[@]} ${sorted_status_array[@]} | tr ' ' '\n' | so
 #SUBTRACTION=$((2-1))
 #echo " The math subtraction 2 - 1 is ${SUBTRACTION}"
 
-#echo "The differ array has $((${#differ[*]})) number of elements"
+echo "The differ array has $((${#differ[*]})) number of elements"
 
 
 IFS=$'\n'
 sorted_differ=($(sort <<<"${differ[*]}"))
 unset IFS
 
-echo "The differ array has $((${#sorted_differ[*]})) number of elements"
-echo "The absent worknodes are :"
+#echo "The differ array has $((${#sorted_differ[*]})) number of elements"
+#echo "The absent worknodes are :"
 
 for index in ${!sorted_differ[*]}
 do
-  echo "node  ${sorted_differ[$index]}"
+  echo "${sorted_differ[$index]}" >> $NODE_LIST
 done
 
-
+#Сохраняем на хост VM119
+rsync /nfs/condor/nodes_for_edit.lst 159.93.221.119:/root/script
 
 # Один элемент массива всегда есть - это сам массив, т.е. область памяти, где начинается массив, 
 # это его же нулевой индекс.
