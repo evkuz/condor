@@ -33,7 +33,8 @@ cp /dev/null $NODE_LIST
 
 # Получаем эталонный массив из ruby-скрипта
 vm_array=($(./list_vms.rb --hostname cloud.jinr.ru --port 11366 --path "/RPC2" --no-ssl-verify --credentials "NOvA:HCo67Jsm4" \
- | sed -e '/^$/d' | sed -e '/.*Stash.*/d' |  cut -d ' ' -f2 | sed -n 's/\(^10.93.221.\)\(.*\)/\2/p'))
+ | sed -e '/^$/d' | sed -e '/.*Stash.*/d' |  cut -d ' ' -f2))
+# | sed -n 's/\(^10.93.221.\)\(.*\)/\2/p'))
 
 
 # Сортируем массивы одинаковым образом, чтобы сравнение элементов массива прошло корректно
@@ -56,7 +57,7 @@ unset IFS
 # из имени слота вида wn_221_xxx.jinr.ru вырезаем 'xxx'
 # Берем первое поле вывода condor_status, вырезаем все, кроме последнего октета ip, удаляем повторяющиеся элементы, удаляем execute хосты - не члены CPN
 # Вывод этой команды и помещаем в массив 'status_array'
-status_array=($(condor_status | cut -d ' ' -f1 | sed -n 's/^slot[0-9]@//p' | awk '!seen[$0]++' | sed -e '/.*execute.*/d' | sed -n 's/\(^wn_221_\)\(.*\)\(.jinr.ru\)/\2/p'))
+status_array=($(condor_status | cut -d ' ' -f1 | sed -n 's/^slot[0-9]@//p' | awk '!seen[$0]++' | sed -e '/.*execute.*/d' | sed -n 's/\(^wn_\)\(.*\)\(.jinr.ru\)/\2/p'))
 
 # Сортируем массив 'status_array' помещаем вывод в массив 'sorted_status_array'
 IFS=$'\n' sorted_status_array=($(sort <<<"${status_array[*]}"))
@@ -99,7 +100,7 @@ do
 done
 
 #Сохраняем на хост VM119
-rsync /nfs/condor/nodes_for_edit.lst 159.93.221.119:/root/script
+#rsync /nfs/condor/nodes_for_edit.lst 159.93.221.119:/root/script
 
 # Один элемент массива всегда есть - это сам массив, т.е. область памяти, где начинается массив, 
 # это его же нулевой индекс.

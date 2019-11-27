@@ -2,8 +2,8 @@ AGENT="wn_221_"
 
 
 # Файл получаем из скрипта find
-ARR_FILE=./nodes_for_edit.lst
-
+ARR_FILE=/nfs/condor/nodes_back.lst
+# nodes_back.lst
 iparray=($(cat $ARR_FILE))
 ipadr_wn="10.93.221."
 
