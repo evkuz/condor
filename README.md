@@ -5,5 +5,7 @@
 - Добавил openssl.cnf
 - Добавил stats.sh
 - Добавил make_vms_list_names.sh
+- Добавил find_slot_sorted_ip_for_edit.sh отличается от find_slot_sorted_for_edit.sh
+  тем, что выдает полный ip адрес, вместо последнего октета.
 
 
