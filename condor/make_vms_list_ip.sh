@@ -38,4 +38,4 @@ do
     echo "${sorted_vm_array[$index]}" >> $VM_LIST
 done
 
-# rsync $NODE_LIST 159.93.221.119:/root/script
+rsync $VM_LIST 159.93.221.119:/root/script

@@ -18,9 +18,10 @@ do
 	ip_wn=${iparray[$index]}
 	SUBN=$(echo $ip_wn | cut -d'.' -f3)
 	NUM=$(echo $ip_wn | cut -d'.' -f4)
-	FQDN="wn_"${SUBN}"_"${NUM}".jinr.ru"
-
+#	FQDN="wn_"${SUBN}"_"${NUM}".jinr.ru"
+        FQDN=${iparray[$index]}
 	condor_off -startd -peaceful $FQDN
+#        echo ${iparray[$index]}
 done
 
 echo "Script started ad $START_TIME"
