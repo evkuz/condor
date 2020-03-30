@@ -1,3 +1,7 @@
+30.03.2020 
+Делаем репозиторий на github
+ДОбавляем /nfs/condor/condor-etc/condor_config.global
+ДОбавил git_config.sh
 23.10.2018 Тут храним конфиги condor.jinr.ru:/nfs
 
 - Добавил конфиги из /nfs/condor/condor-etc/backup
