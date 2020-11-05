@@ -26,10 +26,11 @@
 #vm_array=($(cat $list_of_vms))
 
 # Получаем эталонный массив из ruby-скрипта
-vm_array=($(./list_vms.rb --hostname cloud.jinr.ru --port 11366 --path "/RPC2" --no-ssl-verify --credentials "NOvA:HCo67Jsm4" \
+vm_array=($(./list_vms.rb --hostname cloud.jinr.ru --port 11366 --path "/RPC2" --no-ssl-verify --credentials "juno-local:n4TWA5xCuXh9U" \
  | sed -e '/^$/d' | sed -e '/.*Stash.*/d' |  cut -d ' ' -f2 | sed -n 's/\(^10.93.221.\)\(.*\)/\2/p'))
 
-
+# "NOvA:HCo67Jsm4"
+# juno-local:n4TWA5xCuXh9U
 # Сортируем массивы одинаковым образом, чтобы сравнение элементов массива прошло корректно
 # Отсортированные элементы помещаем в массив 'sorted_vm_array'
 # Тут не важен вывод для пользователя, поэтому сортируем без опций, главное, чтобы оба массива одинаково

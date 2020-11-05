@@ -6,6 +6,10 @@ git add /nfs/README.md
 
 git add /nfs/condor/*.sh
 git add /nfs/condor/*.rb
+git add /nfs/condor/*.cfg
 git add /nfs/condor/condor-etc/backup/*
 git add /nfs/condor/condor-etc/condor_config.global
 git add /nfs/*.sh
+
+git ls-files --modified | xargs git add
+

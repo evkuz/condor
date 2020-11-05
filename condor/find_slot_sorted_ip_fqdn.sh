@@ -8,6 +8,13 @@ NODE_LIST="./nodes_for_edit.lst"
 FULL_LIST="./full_list.lst"
 STATUS_LIST="./status.lst"
 
+CREDEN_NOVA="NOvA:HCo67Jsm4"
+CREDEN_JUNO="juno-local:n4TWA5xCuXh9U"
+CREDEN_EVKUZ="eVg_AleX"
+CREDS_ARRAY=(${CREDEN_JUNO})
+#${CREDEN_NOVA}
+CONSTR="Machine_Type==\"JUNO\""
+
 #Опустошаем
 #touch $NODE_LIST
 cp /dev/null $NODE_LIST
@@ -24,11 +31,17 @@ cp /dev/null $STATUS_LIST
 #list_of_vms="last_octet_list.txt"
 #vm_array=($(cat $list_of_vms))
 
-# Получаем эталонный массив из ruby-скрипта
-vm_array=($(./list_vms.rb --hostname cloud.jinr.ru --port 11366 --path "/RPC2" --no-ssl-verify --credentials "NOvA:HCo67Jsm4" \
- | sed -e '/^$/d' | sed -e '/.*Stash.*/d' |  cut -d ' ' -f2))
-# | sed -n 's/\(^10.93.221.\)\(.*\)/\2/p'))
+for index in ${!CREDS_ARRAY[*]}
+do
 
+# Получаем эталонный массив из ruby-скрипта
+# Исключаем узлы TEST и JUNO-Build-Server, тогда файл full_list.lst содержит только искомые узлы
+IFS=$'\n'
+vm_array+=($(./list_vms.rb --hostname cloud.jinr.ru --port 11366 --path "/RPC2" --no-ssl-verify --credentials ${CREDS_ARRAY[$index]} \
+| sed -e '/^$/d' | sed -e '/.*JUNO-Build.*/d' | sed -e '/.*TEST.*/d' | cut -d ' ' -f2))
+# | sed -n 's/\(^10.93.221.\)\(.*\)/\2/p'))
+#juno-local:n4TWA5xCuXh9U
+#NOvA:HCo67Jsm4
 
 # Сортируем массивы одинаковым образом, чтобы сравнение элементов массива прошло корректно
 # Отсортированные элементы помещаем в массив 'sorted_vm_array'
@@ -52,9 +65,12 @@ done
 # Берем первое поле вывода condor_status, вырезаем все, кроме последнего октета ip, удаляем повторяющиеся элементы, удаляем execute хосты - не члены CPN
 # Вывод этой команды и помещаем в массив 'status_array'
 
+done # CREDS_ARRAY
+
+
 #30.12.2019 Теперь FQDN имеет вид XXX-XXX-XXX-XXX.jinr.ru где XXX - октеты ip-адреса.
 
-status_array=($(condor_status | cut -d ' ' -f1 | sed -n 's/^slot[0-9]@//p' | awk '!seen[$0]++' | sed -e '/.*execute.*/d'))
+status_array=($(condor_status -constraint $CONSTR | cut -d ' ' -f1 | sed -n 's/^slot[0-9]@//p' | awk '!seen[$0]++' | sed -e '/.*execute.*/d' | sed -e '/.*vm.*/d'))
 # | sed -n 's/\(^wn_\)\(.*\)\(.jinr.ru\)/\2/p'))
 
 # Сортируем массив 'status_array' помещаем вывод в массив 'sorted_status_array'

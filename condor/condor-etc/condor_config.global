@@ -54,7 +54,7 @@ SEC_NEGOTIATOR_AUTHENTICATION_METHODS = SSL
 SEC_DAEMON_INTEGRITY = REQUIRED
 SEC_DAEMON_ENCRYPTION = REQUIRED
 #
-SEC_CLIENT_AUTHENTICATION_METHODS = ssl,password,fs,gsi
+SEC_CLIENT_AUTHENTICATION_METHODS = ssl,password,fs,gsi,kerberos
 SEC_PASSWORD_FILE = /var/lib/condor/condor_credential
 
 #
@@ -79,6 +79,7 @@ KILL = FALSE
 AUTH_SSL_CLIENT_CAFILE = /nfs/condor/condor-etc/cndrsrvc.crt
 AUTH_SSL_CLIENT_CERTFILE = /nfs/condor/condor-etc/cndrsrvc.crt
 AUTH_SSL_CLIENT_KEYFILE = /nfs/condor/condor-etc/cndrsrvc.key
+
 AUTH_SSL_SERVER_CAFILE = /nfs/condor/condor-etc/cndrsrvc.crt
 AUTH_SSL_SERVER_CERTFILE = /nfs/condor/condor-etc/cndrsrvc.crt
 AUTH_SSL_SERVER_KEYFILE = /nfs/condor/condor-etc/cndrsrvc.key

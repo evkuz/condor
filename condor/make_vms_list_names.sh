@@ -18,10 +18,19 @@ cd /nfs/condor
  
 # 18.11.2019 Вывод скрипта в массив со строками вида "vm_id | ip | vm_name" .
 # Удаляем поле id(1-е поле), получаем строку с 2 полями,  меняем в такой строке местами поля 2 и 1.
+# Отбираем узлы Production, т.е. только те, которые получают задачи зи GRID
 
 IFS=$'\n'
-vm_array=($(./list_vms.rb --hostname cloud.jinr.ru --port 11366 --path "/RPC2" --no-ssl-verify --credentials "NOvA:HCo67Jsm4" \
-| cut -d ' ' -f2,3 | sed "s/^\([^ ]*\) \([^ ]*\)/\2 \1/" ))
+vm_array_juno=($(./list_vms.rb --hostname cloud.jinr.ru --port 11366 --path "/RPC2" --no-ssl-verify --credentials "juno-local:n4TWA5xCuXh9U" \
+| cut -d ' ' -f2,3 | sed "s/^\([^ ]*\) \([^ ]*\)/\2 \1/" | grep Production))
+# juno-local: n4TWA5xCuXh9U
+# NOvA:HCo67Jsm4
+# 
+# make another array and then merge them 
+vm_array_nova=($(./list_vms.rb --hostname cloud.jinr.ru --port 11366 --path "/RPC2" --no-ssl-verify --credentials "NOvA:HCo67Jsm4" \
+| cut -d ' ' -f2,3 | sed "s/^\([^ ]*\) \([^ ]*\)/\2 \1/"))
+
+vm_array=(${vm_array_juno[@]} ${vm_array_nova[@]})
 unset IFS
 
 # Сортируем массивы одинаковым образом, чтобы сравнение элементов массива прошло корректно

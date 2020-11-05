@@ -20,7 +20,10 @@ cd /nfs/condor
 # Удаляем поле id(1-е поле), получаем строку с 2 полями,  меняем в такой строке местами поля 2 и 1.
 
 IFS=$'\n'
-vm_array=($(./list_vms.rb --hostname cloud.jinr.ru --port 11366 --path "/RPC2" --no-ssl-verify --credentials "NOvA:HCo67Jsm4"))
+vm_array=($(./list_vms.rb --hostname cloud.jinr.ru --port 11366 --path "/RPC2" --no-ssl-verify --credentials "juno-local:n4TWA5xCuXh9U"))
+#NOvA:HCo67Jsm4
+# juno-local:n4TWA5xCuXh9U
+
 unset IFS
 
 # Сортируем массивы одинаковым образом, чтобы сравнение элементов массива прошло корректно

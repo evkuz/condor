@@ -6,6 +6,9 @@
 SOURCE_FILE="nodes_for_edit.lst"
 RESULT_FILE="vms_fqdn.lst"
 
+touch $RESULT_FILE
+cp /dev/null $RESULT_FILE
+
 iparray=($(cat $SOURCE_FILE))
 
 for index in ${!iparray[*]}
