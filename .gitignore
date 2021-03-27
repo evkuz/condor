@@ -1,0 +1,4 @@
+condor/condor-etc
+condor/*.lst
+condor/*.txt
+condor/*ruby*

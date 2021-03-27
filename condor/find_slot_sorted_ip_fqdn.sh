@@ -11,7 +11,7 @@ STATUS_LIST="./status.lst"
 CREDEN_NOVA="NOvA:HCo67Jsm4"
 CREDEN_JUNO="juno-local:n4TWA5xCuXh9U"
 CREDEN_EVKUZ="eVg_AleX"
-CREDS_ARRAY=(${CREDEN_JUNO})
+CREDS_ARRAY=(${CREDEN_JUNO} ${CREDEN_NOVA})
 #${CREDEN_NOVA}
 CONSTR="Machine_Type==\"JUNO\""
 
@@ -94,7 +94,8 @@ sed -i 's/\(^.*\)\(.jinr.ru\)/\1/' $STATUS_LIST
 #Создаем массив заново в нужном формате
 status_array=($(cat $STATUS_LIST))
 # Сортируем массив 'status_array' помещаем вывод в массив 'sorted_status_array'
-IFS=$'\n' sorted_status_array=($(sort <<<"${status_array[*]}"))
+IFS=$'\n'
+sorted_status_array=($(sort <<<"${status_array[*]}"))
 unset IFS
 
 result=$index+1
@@ -113,14 +114,14 @@ differ=$(echo ${sorted_vm_array[@]} ${sorted_status_array[@]} | tr ' ' '\n' | so
 #SUBTRACTION=$((2-1))
 #echo " The math subtraction 2 - 1 is ${SUBTRACTION}"
 
-echo "The differ array has $((${#differ[*]})) number of elements"
+#echo "The differ array has $((${#differ[*]})) number of elements"
 
 
 IFS=$'\n'
 sorted_differ=($(sort <<<"${differ[*]}"))
 unset IFS
 
-#echo "The differ array has $((${#sorted_differ[*]})) number of elements"
+echo "The differ array has $((${#sorted_differ[*]})) number of elements"
 #echo "The absent worknodes are :"
 
 for index in ${!sorted_differ[*]}
@@ -128,6 +129,7 @@ do
   echo "${sorted_differ[$index]}" >> $NODE_LIST
 done
 
+echo "Done"
 #Сохраняем на хост VM119
 #rsync /nfs/condor/nodes_for_edit.lst 159.93.221.119:/root/script
 

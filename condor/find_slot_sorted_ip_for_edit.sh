@@ -15,15 +15,6 @@ NODE_LIST="./nodes_for_edit.lst"
 #touch $NODE_LIST
 cp /dev/null $NODE_LIST
 
-# Комментим за ненадобностью, нужно было для тестов
-#Part_1=(6 13 21 66 75 80 88 115 119 127 130 133 134 135)
-#Part_2=(14 20 24 26 27 28 34 78 84 85 86 87 113 114 117 131)
-#Part_3=(157 158 160 161 162 163 165 167 168 176 178 180 183 184 188 189 190 191 192 193)
-#Part_4=(5 129 145 146 166 169 170 171 172 173 174 175 177 179 181 182 185 186 187 195)
-
-# А это общий массив ВМ, состоящий из всех 4 партий
-#vm_array=(${Part_1[*]} ${Part_2[*]} ${Part_3[*]} ${Part_4[*]})
-
 #cd /nfs/condor
 #./list_vms.rb --hostname cloud.jinr.ru --port 11366 --path "/RPC2" --no-ssl-verify --credentials "NOvA:HCo67Jsm4" \
 # | sed -e '/^$/d' | sed -e '/.*Stash.*/d' |  cut -d ' ' -f2 | sed -n 's/\(^10.93.221.\)\(.*\)/\2/p' > last_octet_list.txt

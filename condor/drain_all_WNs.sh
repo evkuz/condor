@@ -12,6 +12,7 @@ iparray=($(cat $SOURCE_FILE))
 for index in ${!iparray[*]}
 do
      condor_drain -graceful ${iparray[$index]}
+#      condor_off -startd -peaceful ${iparray[$index]}
 done
 echo "Done"
 
